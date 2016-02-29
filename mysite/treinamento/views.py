@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from utils.http import JsonHttpResponse, list_to_json
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -18,7 +19,10 @@ def usuarios(request):
 
 @csrf_exempt
 def rest_agent(request,agent_id = None):
-    if agent_id is None:
+    #Bad Request
+    if isinstance(agent_id,(int,long)):
+        return HttpResponse(status = 400)
+    elif agent_id is None:
         #get all agents
         if request.method == "GET":
             return rest_agent_get_all(request)
@@ -42,18 +46,16 @@ def rest_agent(request,agent_id = None):
         return HttpResponse(status=405)
 
 def rest_agent_get(request,agent_id):
-    if agent_id is not None:
-        agent = get_object_or_404(Agent,pk = agent_id)
-        data = serializers.serialize('json',agent)
-        return HttpResponse(data,mimetype='application/json')
-    else:
-        #Internal Server Error
-        return HttpResponse(status = 500)
+    agent = get_object_or_404(Agent,pk = agent_id)
+    #TODO
+    return HttpResponse(status = 404)
+    # return JsonHttpResponse({"id":agent.id,"name":agent.name,"lat":agent.lat,"lon":agent.lon},200)
 
 def rest_agent_get_all(request):
     agents = Agent.objects.all()
     if agents is not None:
         data = serializers.serialize('json',agents)
+        #TODO
         return HttpResponse(data,content_type='application/json')
     else:
         #Internal Server Error
@@ -88,7 +90,38 @@ def rest_agent_add(request):
             return response
 
 def rest_agent_update(request,agent_id):
-    return HttpResponse(status=405)
+    #Retrieving object
+    agent = get_object_or_404(Agent,pk=agent_id)
+
+    #Getting data from Post Request
+    params = request.POST
+    name = params.get('name',default=None)
+    lat = params.get('lat',default=None)
+    lon = params.get('lon',default=None)
+
+    if name is None:
+        return HttpResponse(status = 400)
+
+    agent.name = name
+    agent.lat = lat
+    agent.lon = lon
+    try:
+        agent.save()
+    except ValueError,IntegrityError:
+        #Validation error in Model Constraints
+        return HttpResponse(status = 400)
+    except:
+        return HttpResponse(status = 500)
+
+    return HttpResponse(status = 200)
 
 def rest_agent_delete(request,agent_id):
-    return HttpResponse(status=405)
+    #Retrieving object
+    agent = get_object_or_404(Agent,pk=agent_id)
+
+    try:
+        agent.delete()
+    except:
+        return HttpResponse(status = 500)
+
+    return HttpResponse(status = 200)

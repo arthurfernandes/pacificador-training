@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.core import serializers
+from django.db import IntegrityError
 from .models import Agent
 
 def index(request):
@@ -67,9 +68,24 @@ def rest_agent_add(request):
         #Getting data from Post Request
         params = request.POST
         name = params.get('name',default=None)
-        lat = params.get('name',default=None)
-        lon = params.get('name',default=None)
-        return HttpResponse(name)
+        lat = params.get('lat',default=None)
+        lon = params.get('lon',default=None)
+
+        if name is None:
+            return HttpResponse(status = 400)
+        else:
+            agent = Agent(name = name, lat=lat, lon=lon)
+            try:
+                agent.save()
+            except ValueError,IntegrityError:
+                #Validation error in Model Constraints
+                return HttpResponse(status = 400)
+            except:
+                return HttpResponse(status = 500)
+
+            response = HttpResponse(status = 201)
+            response['Location'] = request.build_absolute_uri() + ("/%d" % agent.id)
+            return response
 
 def rest_agent_update(request,agent_id):
     return HttpResponse(status=405)

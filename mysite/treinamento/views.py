@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
+from django.core import serializers
+from .models import Agent
 
 def index(request):
     return HttpResponseRedirect(reverse('treinamento:cenario'))
@@ -12,8 +15,9 @@ def cenario(request):
 def usuarios(request):
     return render(request,'treinamento/usuarios.html',{})
 
+@csrf_exempt
 def rest_agent(request,agent_id = None):
-    if agent_id == None:
+    if agent_id is None:
         #get all agents
         if request.method == "GET":
             return rest_agent_get_all(request)
@@ -37,13 +41,35 @@ def rest_agent(request,agent_id = None):
         return HttpResponse(status=405)
 
 def rest_agent_get(request,agent_id):
-    return HttpResponse(status=405)
+    if agent_id is not None:
+        agent = get_object_or_404(Agent,pk = agent_id)
+        data = serializers.serialize('json',agent)
+        return HttpResponse(data,mimetype='application/json')
+    else:
+        #Internal Server Error
+        return HttpResponse(status = 500)
 
 def rest_agent_get_all(request):
-    return HttpResponse(status=405)
+    agents = Agent.objects.all()
+    if agents is not None:
+        data = serializers.serialize('json',agents)
+        return HttpResponse(data,content_type='application/json')
+    else:
+        #Internal Server Error
+        return HttpResponse(status = 500)
 
 def rest_agent_add(request):
-    return HttpResponse(status=405)
+    #Works only with post requests
+    if request.method != 'POST':
+        #Internal Server Error
+        return HttpResponse(status = 500)
+    else:
+        #Getting data from Post Request
+        params = request.POST
+        name = params.get('name',default=None)
+        lat = params.get('name',default=None)
+        lon = params.get('name',default=None)
+        return HttpResponse(name)
 
 def rest_agent_update(request,agent_id):
     return HttpResponse(status=405)

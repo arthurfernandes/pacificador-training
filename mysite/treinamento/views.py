@@ -1,10 +1,8 @@
+import simplejson
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from utils.http import JsonHttpResponse, list_to_json
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
-from django.http import HttpResponse
-from django.core import serializers
+from django.http import HttpResponseRedirect, HttpResponse, QueryDict
 from django.db import IntegrityError
 from .models import Agent
 
@@ -47,19 +45,13 @@ def rest_agent(request,agent_id = None):
 
 def rest_agent_get(request,agent_id):
     agent = get_object_or_404(Agent,pk = agent_id)
-    #TODO
-    return HttpResponse(status = 404)
-    # return JsonHttpResponse({"id":agent.id,"name":agent.name,"lat":agent.lat,"lon":agent.lon},200)
+    data = agent.to_json()
+    return HttpResponse(data,status=200,content_type='application/json')
 
 def rest_agent_get_all(request):
     agents = Agent.objects.all()
-    if agents is not None:
-        data = serializers.serialize('json',agents)
-        #TODO
-        return HttpResponse(data,content_type='application/json')
-    else:
-        #Internal Server Error
-        return HttpResponse(status = 500)
+    data = '[' + ','.join(agent.to_json() for agent in agents) + ']'
+    return HttpResponse(data,content_type='application/json')
 
 def rest_agent_add(request):
     #Works only with post requests
@@ -76,8 +68,10 @@ def rest_agent_add(request):
         if name is None:
             return HttpResponse(status = 400)
         else:
-            agent = Agent(name = name, lat=lat, lon=lon)
+            agent = Agent(name = name)
             try:
+                agent.lat = int(lat) if (lat is not None) else None
+                agent.lon = int(lon) if (lon is not None) else None
                 agent.save()
             except ValueError,IntegrityError:
                 #Validation error in Model Constraints
@@ -93,8 +87,8 @@ def rest_agent_update(request,agent_id):
     #Retrieving object
     agent = get_object_or_404(Agent,pk=agent_id)
 
-    #Getting data from Post Request
-    params = request.POST
+    #Getting data from Put Request
+    params = QueryDict(request.body)
     name = params.get('name',default=None)
     lat = params.get('lat',default=None)
     lon = params.get('lon',default=None)
@@ -102,10 +96,10 @@ def rest_agent_update(request,agent_id):
     if name is None:
         return HttpResponse(status = 400)
 
-    agent.name = name
-    agent.lat = lat
-    agent.lon = lon
     try:
+        agent.name = name
+        agent.lat = int(lat) if (lat is not None) else None
+        agent.lon = int(lon) if (lon is not None) else None
         agent.save()
     except ValueError,IntegrityError:
         #Validation error in Model Constraints

@@ -7,10 +7,10 @@ from django.db import IntegrityError
 from .models import Agent
 
 def index(request):
-    return HttpResponseRedirect(reverse('treinamento:cenario'))
+    return HttpResponseRedirect(reverse('treinamento:scenario'))
 
-def cenario(request):
-    return render(request,'treinamento/cenario.html',{})
+def scenario(request):
+    return render(request,'treinamento/scenario.html',{})
 
 def usuarios(request):
     return render(request,'treinamento/usuarios.html',{})
@@ -78,8 +78,8 @@ def rest_agent_add(request):
                 return HttpResponse(status = 400)
             except:
                 return HttpResponse(status = 500)
-
-            response = HttpResponse(status = 201)
+            data = agent.to_json()
+            response = HttpResponse(data,status = 201,content_type="application/json")
             response['Location'] = request.build_absolute_uri() + ("/%d" % agent.id)
             return response
 
@@ -106,7 +106,8 @@ def rest_agent_update(request,agent_id):
         return HttpResponse(status = 400)
     except:
         return HttpResponse(status = 500)
-
+    data = agent.to_json()
+    response = HttpResponse(data,status = 200,content_type="application/json")
     return HttpResponse(status = 200)
 
 def rest_agent_delete(request,agent_id):

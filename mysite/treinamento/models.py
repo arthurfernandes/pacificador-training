@@ -1,4 +1,4 @@
-import simplejson
+import simplejson as json
 from django.db import models
 from django.core.validators import MaxValueValidator,MinValueValidator
 
@@ -12,7 +12,7 @@ class Agent(models.Model):
         return ("%d - %s" % id % name)
 
     def to_json(self):
-        return simplejson.dumps({
+        return json.dumps({
             "id" : self.id,
             "name" : self.name,
             "lat" : self.lat,

@@ -9,13 +9,12 @@
 
         <!-- Bootstrap 3-->
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="{%static 'treinamento/bootstrap-3.3.6-dist/css/bootstrap.min.css'%}"/>
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="{%static 'treinamento/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css'%}"/>
 
         <!-- Leaflet -->
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="{%static 'treinamento/leaflet/leaflet.css'%}"/>
 
         <!-- Custom Style for Header and Footer-->
         <link rel="stylesheet" type="text/css" href=" {%static 'treinamento/header-footer-style.css'%}"/>
@@ -34,11 +33,11 @@
         {%include "treinamento/footer.html"%}
 
         <!-- Minified Jquery 2.0 -->
-        <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+        <script src="{%static 'treinamento/lib/jquery-1.12.1.min.js'%}"></script>
         <!-- Latest compiled and minified JavaScript Bootstrap-->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script src="{%static 'treinamento/bootstrap-3.3.6-dist/js/bootstrap.min.js'%}"></script>
         <!-- Leaflet Library JS -->
-        <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+        <script src="{%static 'treinamento/leaflet/leaflet.js'%}"></script>
 
         <!-- Agent Rest API Interaction -->
         <script src="{%static 'treinamento/AgentAPI.js' %}"></script>

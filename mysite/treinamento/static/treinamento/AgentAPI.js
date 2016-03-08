@@ -3,7 +3,7 @@
 */
 "use strict"
 
-var AgentAPI = function(){
+var AgentAPI = (function(){
 
     var url = "/rest/agent";
     var _buildAgentURL = function(agentId){
@@ -58,4 +58,4 @@ var AgentAPI = function(){
             })
         }
     }
-}();
+})();

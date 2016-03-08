@@ -3,6 +3,7 @@
 <html lang="pt">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Cenário</title>
@@ -16,6 +17,9 @@
         <!-- Leaflet -->
         <link rel="stylesheet" href="{%static 'treinamento/leaflet/leaflet.css'%}"/>
 
+        <!-- Leaflet Sidebar -->
+        <link rel="stylesheet" href="{%static 'treinamento/leaflet-sidebar/src/L.Control.Sidebar.css'%}">
+
         <!-- Custom Style for Header and Footer-->
         <link rel="stylesheet" type="text/css" href=" {%static 'treinamento/header-footer-style.css'%}"/>
 
@@ -27,8 +31,12 @@
 
         {%include "treinamento/header.html"%}
 
-        <div id="map">
+        <div id="sidebar">
+            <ul>
+                <li><span></li>
+            </ul>
         </div>
+        <div id="map"></div>
 
         {%include "treinamento/footer.html"%}
 
@@ -39,46 +47,14 @@
         <!-- Leaflet Library JS -->
         <script src="{%static 'treinamento/leaflet/leaflet.js'%}"></script>
 
+        <!-- Leaflet Side Bar JS -->
+        <script src="{%static 'treinamento/leaflet-sidebar/src/L.Control.Sidebar.js'%}"></script>
+
         <!-- Agent Rest API Interaction -->
         <script src="{%static 'treinamento/AgentAPI.js' %}"></script>
 
         <!-- Scenario implementation -->
-        <script type="text/javascript">
-            $(function(){
-                /*
-                * @require AgentAPI
-                */
-                "use strict"
-                var map = L.map('map').setView([-30.09316, 84.21604], 12)
-                L.tileLayer('http://10.67.4.121/osm/1.0.0/brasil/{z}/{x}/{y}.png',{
-                    minZoom : 1,
-                    crs : L.CRS.EPSG4326,
-                    tms : true,
-                    continuousWorld : true,
-                    noWrap : true
-                }).addTo(map)
-
-                var popup = L.popup();
-
-                map.on('click',function(e){
-                    popup
-                        .setLatLng(e.latlng)
-                        .setContent("You clicked the map at "+e.latlng.toString())
-                        .openOn(map);
-                })
-
-                function renderAgents(){
-                    var promise = AgentAPI.getAllAgents()
-                    promise.done(function(){
-
-                    })
-
-                    promise.fail(function(){
-
-                    })
-                }
-
-            })
+        <script src="{%static 'treinamento/MapModule.js'%}"></script>
 
         </script>
     </body>

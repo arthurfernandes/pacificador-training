@@ -69,8 +69,8 @@ def rest_agent_add(request):
         else:
             agent = Agent(name = name)
             try:
-                agent.lat = int(lat) if (lat is not None) else None
-                agent.lon = int(lon) if (lon is not None) else None
+                agent.lat = float(lat) if (lat is not None) else None
+                agent.lon = float(lon) if (lon is not None) else None
                 agent.save()
             except ValueError,IntegrityError:
                 #Validation error in Model Constraints
@@ -97,8 +97,8 @@ def rest_agent_update(request,agent_id):
 
     try:
         agent.name = name
-        agent.lat = int(lat) if (lat is not None) else None
-        agent.lon = int(lon) if (lon is not None) else None
+        agent.lat = float(lat) if (lat is not None) else None
+        agent.lon = float(lon) if (lon is not None) else None
         agent.save()
     except ValueError,IntegrityError:
         #Validation error in Model Constraints

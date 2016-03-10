@@ -6,6 +6,8 @@
 
 "use strict"
 
+Mustache.tags = ["[[","]]"];
+
 var MapModule = (function(){
     var agents = []
     var markers = new L.FeatureGroup();
@@ -34,7 +36,7 @@ var MapModule = (function(){
     }
 
     function _cacheDOM(){
-        agentTemplate = $("#agent-template").html();
+        agentTemplate = $("#agent-template-container").find("script").html();
         $agentTable = $("#agent-table");
         console.log(agentTemplate);
     }
@@ -61,7 +63,7 @@ var MapModule = (function(){
     }
 
     function _renderTable(){
-        var output = Mustache.render(agentTemplate,{name : "a"});
+        var output = Mustache.render(agentTemplate,{"agents" : agents});
         $agentTable.html(output);
     }
 

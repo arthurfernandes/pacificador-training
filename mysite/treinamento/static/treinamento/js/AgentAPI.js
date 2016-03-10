@@ -24,7 +24,7 @@ var AgentAPI = (function(){
         },
 
         createAgent : function(name,lat,lon){
-            data = {}
+            var data = {}
             data.name = name
             if(lat != null)
                 data.lat = lat
@@ -38,7 +38,7 @@ var AgentAPI = (function(){
         },
 
         updateAgent : function(agentId,name,lat,lon){
-            data = {}
+            var data = {}
             data.name = name
             if(lat != null)
                 data.lat = lat

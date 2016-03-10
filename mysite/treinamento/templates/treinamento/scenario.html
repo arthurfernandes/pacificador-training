@@ -36,15 +36,17 @@
 
                 </table>
             </div>
-            <table style="display:none">
-                <tbody id="agent-template">
+            <div id = "agent-template-container">
+                <script type="text/html">
+                    [[#agents]]
                     <tr>
-                        <td class="agent-icon"><input type="image" src="{%static 'treinamento/img/agent-icon.png'%}"></td>
-                        <td><span class="agent-name"><strong>{% templatetag openvariable %} name {% templatetag closevariable %}</strong></span></td>
-                        <td align="right"><span class="glyphicon glyphicon-globe"></span></td>
+                            <td class="agent-icon"><input type="image" src="{%static 'treinamento/img/agent-icon.png'%}"></td>
+                            <td><span class="agent-name"><strong>[[name]]</strong></span></td>
+                            <td align="right"><span class="glyphicon glyphicon-globe"></span></td>
                     </tr>
-                </tbody>
-            </table>
+                    [[/agents]]
+                </script>
+            </div>
         </div>
         <div id="map"></div>
 

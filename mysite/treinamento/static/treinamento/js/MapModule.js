@@ -10,7 +10,7 @@ Mustache.tags = ["[[","]]"];
 
 var MapModule = (function(){
     var agents = []
-    var markers = new L.FeatureGroup();
+    var markers = new L.layerGroup();
     var map = undefined;
     var sidebar = undefined;
     var agentIcon = undefined;
@@ -31,14 +31,14 @@ var MapModule = (function(){
         agentIcon = L.icon({
             iconUrl : 'static/treinamento/img/agent.png',
             iconSize : [50,50],
-            // popupAnchor : [-3, -76]
+            popupAnchor : [-3, -76]
         });
+
     }
 
     function _cacheDOM(){
         agentTemplate = $("#agent-template-container").find("script").html();
         $agentTable = $("#agent-table");
-        console.log(agentTemplate);
     }
 
     function _loop(){

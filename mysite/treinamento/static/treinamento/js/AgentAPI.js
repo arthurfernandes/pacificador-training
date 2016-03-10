@@ -38,12 +38,12 @@ var AgentAPI = (function(){
         },
 
         updateAgent : function(agentId,name,lat,lon){
-            var data = {}
-            data.name = name
+            var data = {};
+            data.name = name;
             if(lat != null)
-                data.lat = lat
+                data.lat = lat;
             if(lon != null)
-                data.lon = lon
+                data.lon = lon;
             return jQuery.ajax({
                 url : _buildAgentURL(agentId),
                 method : "PUT",

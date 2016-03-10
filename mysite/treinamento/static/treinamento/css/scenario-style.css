@@ -1,0 +1,40 @@
+#map {
+    height : 100%;
+    top : 40px;
+    left: 0px;
+    width : 100%;
+    position: fixed;
+    z-index : 1;
+}
+
+#sidebar {
+    position : fixed;
+    top : 70px;
+    right : 20px;
+    margin-right :0px;
+    padding-right : 0px;
+    width : 400px;
+    height : 80vh;
+    min-width : 400px;
+    border-radius : 10px;
+    background-color : rgba(244,244,244,0.88);
+    z-index : 99;
+}
+
+#sidebar #agent-table{
+
+}
+
+#agent-table .agent-icon{
+    width : 30px;
+    height : 20px;
+}
+
+#agent-table .agent-icon input{
+    width : 20px;
+    height : 20px;
+}
+
+#agent-table .agent-name{
+    font-size : 15px;
+}

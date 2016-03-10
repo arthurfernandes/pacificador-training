@@ -13,28 +13,38 @@
         <link rel="stylesheet" href="{%static 'treinamento/bootstrap-3.3.6-dist/css/bootstrap.min.css'%}"/>
         <!-- Optional theme -->
         <link rel="stylesheet" href="{%static 'treinamento/bootstrap-3.3.6-dist/css/bootstrap-theme.min.css'%}"/>
-
         <!-- Leaflet -->
         <link rel="stylesheet" href="{%static 'treinamento/leaflet/leaflet.css'%}"/>
-
-        <!-- Leaflet Sidebar -->
-        <link rel="stylesheet" href="{%static 'treinamento/leaflet-sidebar/src/L.Control.Sidebar.css'%}">
-
         <!-- Custom Style for Header and Footer-->
-        <link rel="stylesheet" type="text/css" href=" {%static 'treinamento/header-footer-style.css'%}"/>
-
+        <link rel="stylesheet" type="text/css" href=" {%static 'treinamento/css/header-footer-style.css'%}"/>
         <!-- Custom Style for Cenario -->
-        <link rel="stylesheet" type="text/css" href="{%static 'treinamento/scenario-style.css'%}"/>
+        <link rel="stylesheet" type="text/css" href="{%static 'treinamento/css/scenario-style.css'%}"/>
+
+        <script src="{%static 'treinamento/lib/mustache.min.js'%}"></script>
     </head>
 
     <body>
 
         {%include "treinamento/header.html"%}
 
-        <div id="sidebar">
-            <ul>
-                <li><span></li>
-            </ul>
+        <div id="sidebar" class="panel panel-info">
+            <div class="panel-heading text-center">
+                <h3><strong>Agentes</strong></h3>
+            </div>
+            <div class="panel-body table-responsive">
+                <table id="agent-table" class="table">
+
+                </table>
+            </div>
+            <table style="display:none">
+                <tbody id="agent-template">
+                    <tr>
+                        <td class="agent-icon"><input type="image" src="{%static 'treinamento/img/agent-icon.png'%}"></td>
+                        <td><span class="agent-name"><strong>{% templatetag openvariable %} name {% templatetag closevariable %}</strong></span></td>
+                        <td align="right"><span class="glyphicon glyphicon-globe"></span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div id="map"></div>
 
@@ -46,15 +56,11 @@
         <script src="{%static 'treinamento/bootstrap-3.3.6-dist/js/bootstrap.min.js'%}"></script>
         <!-- Leaflet Library JS -->
         <script src="{%static 'treinamento/leaflet/leaflet.js'%}"></script>
-
-        <!-- Leaflet Side Bar JS -->
-        <script src="{%static 'treinamento/leaflet-sidebar/src/L.Control.Sidebar.js'%}"></script>
-
         <!-- Agent Rest API Interaction -->
-        <script src="{%static 'treinamento/AgentAPI.js' %}"></script>
+        <script src="{%static 'treinamento/js/AgentAPI.js' %}"></script>
 
         <!-- Scenario implementation -->
-        <script src="{%static 'treinamento/MapModule.js'%}"></script>
+        <script src="{%static 'treinamento/js/MapModule.js'%}"></script>
 
         </script>
     </body>
